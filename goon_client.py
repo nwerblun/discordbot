@@ -19,6 +19,10 @@ class GoonClient(discord.Client):
         print("--------")
 
     async def on_message(self, msg: discord.Message):
+        for r in msg.author.roles:
+            if r.name == "guest":
+                return
+
         if msg.author.id != self.user.id:
             if msg.channel.name == "good-morning":
                 await self._assign_gm_role(msg)
@@ -54,6 +58,7 @@ class GoonClient(discord.Client):
             await msg.reply("gm gaymer")
             await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
             await self._reply_with_gm_response_or_clear(msg)
+            print("added gm role to " + msg.author.name)
 
     async def _reply_with_gm_response_or_clear(self, msg):
         if self.db is None:
@@ -84,8 +89,10 @@ class GoonClient(discord.Client):
             if not (await self.db.aget(key)) is None:
                 for chan_id, msg_id in await self.db.aget(key):
                     chan_to_del = await self.fetch_channel(chan_id)
-                    msg_to_del = await chan_to_del.fetch_message(msg_id)
-                    await msg_to_del.delete()
+                    if chan_to_del is not None:
+                        msg_to_del = await chan_to_del.fetch_message(msg_id)
+                        if msg_to_del is not None:
+                            await msg_to_del.delete()
                 await self.db.aremove(key)
 
         if not await self.db.asave():
