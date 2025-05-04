@@ -31,7 +31,7 @@ class GoonClient(discord.Client):
 
     @tasks.loop(time=datetime.time(hour=0))
     async def revoke_gm_roles(self):
-        gd = await self.fetch_guild(int(os.getenv("TEST_GUILD_ID")))
+        gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
         roles = await gd.fetch_roles()
         gm_role = None
         for r in roles:
@@ -42,7 +42,7 @@ class GoonClient(discord.Client):
         print("Removed gm roles")
 
     async def setup_hook(self):
-        gd = await self.fetch_guild(int(os.getenv("TEST_GUILD_ID")))
+        gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
         self.tree.copy_global_to(guild=gd)
         await self.tree.sync()
 
