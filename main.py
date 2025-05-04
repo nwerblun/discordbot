@@ -1,18 +1,11 @@
 import discord
-
-intents = discord.Intents.all()
-client = discord.Client(intents=intents)
-
-env_file = open(".env")
-env = env_file.readlines()
-env_file.close()
-# 0 = app id, 1 = login token, 2 = public key
-token = env[1].replace("DISCORD_TOKEN=", "").strip()
+import goon_client
+from discord.ext import commands
+from dotenv import load_dotenv
+import os
 
 
-@client.event
-async def on_message(message):
-    if message.content.startswith("$test"):
-        await message.channel.send("sup")
-
-client.run(token)
+load_dotenv()
+db = "discord.db"
+client = goon_client.GoonClient(intents=discord.Intents.all(), db=db)
+client.run(os.getenv("DISCORD_TOKEN"))
