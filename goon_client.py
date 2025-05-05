@@ -154,3 +154,4 @@ class GoonClient(discord.Client):
                 for mem in gd.members:
                     await mem.remove_roles(r)
                 print("Removed gm roles")
+                interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
