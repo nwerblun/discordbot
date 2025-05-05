@@ -76,23 +76,22 @@ class GoonClient(discord.Client):
         key = str(msg.author.id) + "_gm_responses"
         if main_dict is None:
             main_dict = {}
-        if key not in main_dict.keys():
+        if not (key in main_dict.keys()):
             main_dict[key] = []
         resps = main_dict[key]
 
         if not (await self._user_has_role(msg.author, "said gm")):
             resp = await msg.reply("Bruh, go say good morning right now")
-            resps += [(msg.channel.id, resp.id)]
+            resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            # zipping a *'d (aka unpacked) zipped list inverses the zip. Don't ask.
-            channels, msg_ids = zip(*resps)
-            print("Deleting ", len(msg_ids), "x", len(channels), " gm messages.")
-            if (msg_ids is not None) and (channels is not None) and (len(channels) == len(msg_ids)):
-                for i in range(len(msg_ids)):
-                    chan_to_del = await self.fetch_channel(channels[i])
+            print("Deleting ", len(resps) " gm messages.")
+                for chan_id, msg_id in resps:
+                    print("In channel...", chan_id)
+                    chan_to_del = await self.fetch_channel(chan_id)
                     if chan_to_del is not None:
-                        msg_to_del = await chan_to_del.fetch_message(msg_ids[i])
+                        print("message...", msg_id)
+                        msg_to_del = await chan_to_del.fetch_message(msg_id)
                         if msg_to_del is not None:
                             print("Deleting msg ", msg_to_del)
                             await msg_to_del.delete()
