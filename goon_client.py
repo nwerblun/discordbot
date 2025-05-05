@@ -141,3 +141,15 @@ class GoonClient(discord.Client):
                     await interaction.response.send_message("User @" + mem.name + " exempted from gm rules")
                 else:
                     print("FAILED TO WRITE TO DB")
+
+        @self.tree.command(description="Clear all user's gm status")
+        async def wipe_gm_roles(interaction: discord.Interaction):
+            gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
+            roles = await gd.fetch_roles()
+            gm_role = None
+            for r in roles:
+                if r.name == "said gm":
+                    gm_role = r
+            for mem in gd.members:
+                await mem.remove_roles(r)
+            print("Removed gm roles")
