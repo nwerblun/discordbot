@@ -85,16 +85,16 @@ class GoonClient(discord.Client):
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            print("Deleting ", len(resps) " gm messages.")
-                for chan_id, msg_id in resps:
-                    print("In channel...", chan_id)
-                    chan_to_del = await self.fetch_channel(chan_id)
-                    if chan_to_del is not None:
-                        print("message...", msg_id)
-                        msg_to_del = await chan_to_del.fetch_message(msg_id)
-                        if msg_to_del is not None:
-                            print("Deleting msg ", msg_to_del)
-                            await msg_to_del.delete()
+            print("Deleting ", len(resps), " gm messages.")
+            for chan_id, msg_id in resps:
+                print("In channel...", chan_id)
+                chan_to_del = await self.fetch_channel(int(chan_id))
+                if chan_to_del is not None:
+                    print("message...", msg_id)
+                    msg_to_del = await chan_to_del.fetch_message(int(msg_id))
+                    if msg_to_del is not None:
+                        print("Deleting msg ", msg_to_del)
+                        await msg_to_del.delete()
                 main_dict[key] = None
         await self.db.aset("gm_resps", main_dict)
         if not await self.db.asave():
