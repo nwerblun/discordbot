@@ -19,9 +19,8 @@ class GoonClient(discord.Client):
         print("--------")
 
     async def on_message(self, msg: discord.Message):
-        for r in msg.author.roles:
-            if r.name == "guest":
-                return
+        if (await self._user_has_role(msg.author, "guest")):
+            return
 
         if msg.author.id != self.user.id:
             if msg.channel.name == "good-morning":
@@ -31,15 +30,22 @@ class GoonClient(discord.Client):
 
     @tasks.loop(time=datetime.time(hour=0))
     async def revoke_gm_roles(self):
-        gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
-        roles = await gd.fetch_roles()
-        gm_role = None
-        for r in roles:
-            if r.name == "said gm":
-                gm_role = r
-        for mem in gd.members:
+        gm_role = await self._fetch_role("said gm")
+        async for mem in gd.fetch_members():
             await mem.remove_roles(r)
         print("Removed gm roles")
+
+    async def _fetch_role(self, role_name: str):
+        gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
+        roles = await gd.fetch_roles()
+        desired_role = None
+        for r in roles:
+            if r.name == role_name:
+                desired_role = r
+        return desired_role
+
+    async def _user_has_role(self, user: discord.Member, role_name: str):
+        return (await self._fetch_role(role_name)) in (await user.fetch_roles())
 
     async def setup_hook(self):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
@@ -47,13 +53,7 @@ class GoonClient(discord.Client):
         await self.tree.sync()
 
     async def _assign_gm_role(self, msg):
-        gd = msg.guild
-        roles = await gd.fetch_roles()
-        gm_role = None
-        for r in roles:
-            if r.name == "said gm":
-                gm_role = r
-        if r is not None and r not in msg.author.roles:
+        if not (await self._user_has_role(msg.author, "said_gm")):
             await msg.author.add_roles(r)
             await msg.reply("gm gaymer")
             await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
@@ -68,15 +68,7 @@ class GoonClient(discord.Client):
             msg.author in await self.db.aget("gm_exempts"):
             return
 
-        gd = msg.guild
-        roles = await gd.fetch_roles()
-
-        gm_role = None
-        for r in roles:
-            if r.name == "said gm":
-                gm_role = r
-
-        if (gm_role is not None) and not (gm_role in msg.author.roles):
+        if not (await self._user_has_role(msg.author, "said_gm")):
             resp = await msg.reply("Bruh, go say good morning right now")
             key = str(msg.author.id) + "_gm_responses"
             resps = await self.db.aget(key)
@@ -84,7 +76,7 @@ class GoonClient(discord.Client):
                 await self.db.aset(key, [(msg.channel.id, resp.id)])
             else:
                 await self.db.aset(key, await self.db.aget(key) + [(msg.channel.id, resp.id)])
-        elif (gm_role is not None) and (gm_role in msg.author.roles):
+        elif (await self._user_has_role(msg.author, "said gm")):
             key = str(msg.author.id) + "_gm_responses"
             if not (await self.db.aget(key)) is None:
                 for chan_id, msg_id in await self.db.aget(key):
@@ -145,13 +137,8 @@ class GoonClient(discord.Client):
         @self.tree.command(description="Clear all user's gm status")
         async def wipe_gm_roles(interaction: discord.Interaction):
             if interaction.permissions.administrator:
-                gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
-                roles = await gd.fetch_roles()
-                gm_role = None
-                for r in roles:
-                    if r.name == "said gm":
-                        gm_role = r
-                for mem in gd.members:
+                r = await self._fetch_role("said_gm")
+                async for mem in gd.fetch_members():
                     await mem.remove_roles(r)
                 print("Removed gm roles")
-                interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
+                await interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
