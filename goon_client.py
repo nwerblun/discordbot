@@ -56,7 +56,7 @@ class GoonClient(discord.Client):
 
     async def _assign_gm_role(self, msg):
         gm_role = await self._fetch_role("said gm")
-        if not (await self._user_has_role(msg.author, "said_gm")):
+        if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
             await msg.reply("gm gaymer")
             await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
@@ -80,7 +80,7 @@ class GoonClient(discord.Client):
             main_dict[key] = []
         resps = main_dict[key]
 
-        if not (await self._user_has_role(msg.author, "said_gm")):
+        if not (await self._user_has_role(msg.author, "said gm")):
             resp = await msg.reply("Bruh, go say good morning right now")
             resps += [(msg.channel.id, resp.id)]
             main_dict[key] = resps
@@ -148,7 +148,7 @@ class GoonClient(discord.Client):
         @self.tree.command(description="Clear all user's gm status")
         async def wipe_gm_roles(interaction: discord.Interaction):
             if interaction.permissions.administrator:
-                r = await self._fetch_role("said_gm")
+                r = await self._fetch_role("said gm")
                 async for mem in gd.fetch_members():
                     await mem.remove_roles(r)
                 print("Removed gm roles")
