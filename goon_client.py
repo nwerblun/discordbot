@@ -11,6 +11,7 @@ class GoonClient(discord.Client):
         self._register_commands()
         if not kwargs["db"] is None:
             self.db = AsyncPickleDB(kwargs["db"])
+        self.verbosity = os.getenv("VERBOSITY")
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
@@ -33,7 +34,8 @@ class GoonClient(discord.Client):
         gm_role = await self._fetch_role("said gm")
         async for mem in gd.fetch_members():
             await mem.remove_roles(r)
-        print("Removed gm roles")
+        if self.verbosity > 0:
+            print("Removed gm roles")
 
     async def _fetch_role(self, role_name: str):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
@@ -46,7 +48,8 @@ class GoonClient(discord.Client):
 
     async def _user_has_role(self, user: discord.Member, role_name: str):
         has_role = await self._fetch_role(role_name) in user.roles
-        print("checking if user ", user, " has role ", role_name, "....", has_role)
+        if self.verbosity > 1:
+            print("checking if user ", user, " has role ", role_name, "....", has_role)
         return has_role
 
     async def setup_hook(self):
@@ -61,7 +64,8 @@ class GoonClient(discord.Client):
             await msg.reply("gm gaymer")
             await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
             await self._reply_with_gm_response_or_clear(msg)
-            print("added gm role to " + msg.author.name)
+            if self.verbosity > 0:
+                print("added gm role to " + msg.author.name)
 
     async def _reply_with_gm_response_or_clear(self, msg):
         if self.db is None:
@@ -69,7 +73,8 @@ class GoonClient(discord.Client):
 
         exepmts = await self.db.aget("gm_exempts")
         if exepmts is not None and msg.author in exepmts:
-            print("user", msg.author, " is exempted. Skipping")
+            if self.verbosity > 0:
+                print("user", msg.author, " is exempted. Skipping")
             return
 
         main_dict = await self.db.aget("gm_resps")
@@ -85,15 +90,19 @@ class GoonClient(discord.Client):
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            print("Deleting ", len(resps), " gm messages.")
+            if self.verbosity > 0:
+                print("Deleting ", len(resps), " gm messages to ", msg.author)
             for chan_id, msg_id in resps:
-                print("In channel...", chan_id)
+                if self.verbosity > 1:
+                    print("In channel...", chan_id)
                 chan_to_del = await self.fetch_channel(int(chan_id))
                 if chan_to_del is not None:
-                    print("message...", msg_id)
+                    if self.verbosity > 1:
+                        print("message...", msg_id)
                     msg_to_del = await chan_to_del.fetch_message(int(msg_id))
                     if msg_to_del is not None:
-                        print("Deleting msg ", msg_to_del)
+                        if self.verbosity > 1:
+                            print("Deleting msg ", msg_to_del)
                         await msg_to_del.delete()
                 main_dict.pop(key, None)
         await self.db.aset("gm_resps", main_dict)
@@ -150,5 +159,6 @@ class GoonClient(discord.Client):
                 r = await self._fetch_role("said gm")
                 async for mem in gd.fetch_members():
                     await mem.remove_roles(r)
-                print("Removed gm roles")
+                if self.verbosity > 0:
+                    print("Removed gm roles")
                 await interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
