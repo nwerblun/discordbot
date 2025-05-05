@@ -45,7 +45,7 @@ class GoonClient(discord.Client):
         return desired_role
 
     async def _user_has_role(self, user: discord.Member, role_name: str):
-        has_role await self._fetch_role(role_name) in user.roles
+        has_role = await self._fetch_role(role_name) in user.roles
         print("checking if user ", user, " has role ", role_name, "....", has_role)
         return has_role
 
@@ -76,20 +76,19 @@ class GoonClient(discord.Client):
         key = str(msg.author.id) + "_gm_responses"
         if main_dict is None:
             main_dict = {}
+        if key not in main_dict.keys():
+            main_dict[key] = []
         resps = main_dict[key]
 
         if not (await self._user_has_role(msg.author, "said_gm")):
             resp = await msg.reply("Bruh, go say good morning right now")
-            if resps is None or not len(resps):
-                resps = [(msg.channel.id, resp.id)])
-            else:
-                resps = resps + [(msg.channel.id, resp.id)])
+            resps += [(msg.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
             # zipping a *'d (aka unpacked) zipped list inverses the zip. Don't ask.
             channels, msg_ids = zip(*resps)
             print("Deleting ", len(msg_ids), "x", len(channels), " gm messages.")
-            if (msg_ids is not None) and (channels is not None) and (len(channels) == len(msg_ids):
+            if (msg_ids is not None) and (channels is not None) and (len(channels) == len(msg_ids)):
                 for i in range(len(msg_ids)):
                     chan_to_del = await self.fetch_channel(channels[i])
                     if chan_to_del is not None:
