@@ -90,7 +90,7 @@ class GoonClient(discord.Client):
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            if self.verbosity > 0:
+            if self.verbosity > 1:
                 print("Deleting ", len(resps), " gm messages to ", msg.author)
             for chan_id, msg_id in resps:
                 if self.verbosity > 1:
