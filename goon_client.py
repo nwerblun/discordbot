@@ -11,7 +11,7 @@ class GoonClient(discord.Client):
         self._register_commands()
         if not kwargs["db"] is None:
             self.db = AsyncPickleDB(kwargs["db"])
-        self.verbosity = os.getenv("VERBOSITY")
+        self.verbosity = int(os.getenv("VERBOSITY"))
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
