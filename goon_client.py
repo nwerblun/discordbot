@@ -95,7 +95,7 @@ class GoonClient(discord.Client):
                     if msg_to_del is not None:
                         print("Deleting msg ", msg_to_del)
                         await msg_to_del.delete()
-                main_dict[key] = None
+                main_dict.pop(key, None)
         await self.db.aset("gm_resps", main_dict)
         if not await self.db.asave():
             print("WARNING: Failed to save db")
