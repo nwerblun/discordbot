@@ -45,7 +45,7 @@ class GoonClient(discord.Client):
         return desired_role
 
     async def _user_has_role(self, user: discord.Member, role_name: str):
-        return (await self._fetch_role(role_name)) in (await user.fetch_roles())
+        return (await self._fetch_role(role_name)) in user.roles
 
     async def setup_hook(self):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
@@ -53,8 +53,9 @@ class GoonClient(discord.Client):
         await self.tree.sync()
 
     async def _assign_gm_role(self, msg):
+        gm_role = await self._fetch_role("said gm")
         if not (await self._user_has_role(msg.author, "said_gm")):
-            await msg.author.add_roles(r)
+            await msg.author.add_roles(gm_role)
             await msg.reply("gm gaymer")
             await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
             await self._reply_with_gm_response_or_clear(msg)
