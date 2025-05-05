@@ -45,7 +45,9 @@ class GoonClient(discord.Client):
         return desired_role
 
     async def _user_has_role(self, user: discord.Member, role_name: str):
-        return (await self._fetch_role(role_name)) in user.roles
+        has_role await self._fetch_role(role_name) in user.roles
+        print("checking if user ", user, " has role ", role_name, "....", has_role)
+        return has_role
 
     async def setup_hook(self):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
@@ -65,29 +67,38 @@ class GoonClient(discord.Client):
         if self.db is None:
             raise discord.ClientException("Could not open database while checking gm responses")
 
-        if await self.db.aget("gm_exempts") is not None and \
-            msg.author in await self.db.aget("gm_exempts"):
+        exepmts = await self.db.aget("gm_exempts")
+        if exepmts is not None and msg.author in exepmts:
+            print("user", msg.author, " is exempted. Skipping")
             return
+
+        main_dict = await self.db.aget("gm_resps")
+        key = str(msg.author.id) + "_gm_responses"
+        if main_dict is None:
+            main_dict = {}
+        resps = main_dict[key]
 
         if not (await self._user_has_role(msg.author, "said_gm")):
             resp = await msg.reply("Bruh, go say good morning right now")
-            key = str(msg.author.id) + "_gm_responses"
-            resps = await self.db.aget(key)
-            if resps is None:
-                await self.db.aset(key, [(msg.channel.id, resp.id)])
+            if resps is None or not len(resps):
+                resps = [(msg.channel.id, resp.id)])
             else:
-                await self.db.aset(key, await self.db.aget(key) + [(msg.channel.id, resp.id)])
+                resps = resps + [(msg.channel.id, resp.id)])
+            main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            key = str(msg.author.id) + "_gm_responses"
-            if not (await self.db.aget(key)) is None:
-                for chan_id, msg_id in await self.db.aget(key):
-                    chan_to_del = await self.fetch_channel(chan_id)
+            # zipping a *'d (aka unpacked) zipped list inverses the zip. Don't ask.
+            channels, msg_ids = zip(*resps)
+            print("Deleting ", len(msg_ids), "x", len(channels), " gm messages.")
+            if (msg_ids is not None) and (channels is not None) and (len(channels) == len(msg_ids):
+                for i in range(len(msg_ids)):
+                    chan_to_del = await self.fetch_channel(channels[i])
                     if chan_to_del is not None:
-                        msg_to_del = await chan_to_del.fetch_message(msg_id)
+                        msg_to_del = await chan_to_del.fetch_message(msg_ids[i])
                         if msg_to_del is not None:
+                            print("Deleting msg ", msg_to_del)
                             await msg_to_del.delete()
-                await self.db.aremove(key)
-
+                main_dict[key] = None
+        await self.db.aset("gm_resps", main_dict)
         if not await self.db.asave():
             print("WARNING: Failed to save db")
 
