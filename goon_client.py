@@ -3,6 +3,7 @@ from discord.ext import tasks
 import datetime
 import os
 from pickledb import AsyncPickleDB
+from reaction_map import ReactionMap
 
 class GoonClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -20,7 +21,8 @@ class GoonClient(discord.Client):
         print("--------")
 
     async def on_message(self, msg: discord.Message):
-        if (await self._user_has_role(msg.author, "guest")):
+        if (await self._user_has_role(msg.author, "guest")) or
+        (await self._user_has_role(msg.author, "Bots")):
             return
 
         if msg.author.id != self.user.id:
@@ -28,6 +30,9 @@ class GoonClient(discord.Client):
                 await self._assign_gm_role(msg)
             else:
                 await self._reply_with_gm_response_or_clear(msg)
+            if msg.channel.name == "are-we-up":
+                await self._letsgo(msg)
+
 
     @tasks.loop(time=datetime.time(hour=0))
     async def revoke_gm_roles(self):
@@ -36,6 +41,9 @@ class GoonClient(discord.Client):
             await mem.remove_roles(r)
         if self.verbosity > 0:
             print("Removed gm roles")
+
+    async def _letsgo(self, msg: discord.Message):
+        await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["letsgo"]))
 
     async def _fetch_role(self, role_name: str):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
@@ -62,7 +70,7 @@ class GoonClient(discord.Client):
         if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
             await msg.reply("gm gaymer")
-            await msg.add_reaction(await msg.guild.fetch_emoji(1367947655875137547))
+            await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["homiekiss"]))
             await self._reply_with_gm_response_or_clear(msg)
             if self.verbosity > 0:
                 print("added gm role to " + msg.author.name)
@@ -90,6 +98,8 @@ class GoonClient(discord.Client):
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
+            if not len(resps):
+                return  # nothing to delete
             if self.verbosity > 1:
                 print("Deleting ", len(resps), " gm messages to ", msg.author)
             for chan_id, msg_id in resps:
