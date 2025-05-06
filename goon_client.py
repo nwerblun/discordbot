@@ -19,6 +19,7 @@ class GoonClient(discord.Client):
         print("--------")
         print("Registering commands...")
         print("--------")
+        self.gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
 
     async def on_message(self, msg: discord.Message):
         if (await self._user_has_role(msg.author, "guest")) or \
@@ -46,8 +47,7 @@ class GoonClient(discord.Client):
         await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["letsgo"]))
 
     async def _fetch_role(self, role_name: str):
-        gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
-        roles = await gd.fetch_roles()
+        roles = await self.gd.fetch_roles()
         desired_role = None
         for r in roles:
             if r.name == role_name:
@@ -167,7 +167,7 @@ class GoonClient(discord.Client):
         async def wipe_gm_roles(interaction: discord.Interaction):
             if interaction.permissions.administrator:
                 r = await self._fetch_role("said gm")
-                async for mem in gd.fetch_members():
+                async for mem in self.gd.fetch_members():
                     await mem.remove_roles(r)
                 if self.verbosity > 0:
                     print("Removed gm roles")
