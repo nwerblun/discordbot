@@ -21,7 +21,7 @@ class GoonClient(discord.Client):
         print("--------")
 
     async def on_message(self, msg: discord.Message):
-        if (await self._user_has_role(msg.author, "guest")) or
+        if (await self._user_has_role(msg.author, "guest")) or \
         (await self._user_has_role(msg.author, "Bots")):
             return
 
@@ -80,7 +80,7 @@ class GoonClient(discord.Client):
             raise discord.ClientException("Could not open database while checking gm responses")
 
         exepmts = await self.db.aget("gm_exempts")
-        if exepmts is not None and msg.author in exepmts:
+        if (not exepmts is None) and (msg.author.id in exepmts):
             if self.verbosity > 0:
                 print("user", msg.author, " is exempted. Skipping")
             return

@@ -6,7 +6,4 @@ class Responses:
         "gm",
         "Good Morning",
         "Have a lovely morning, beautiful :homiekissh:"
-        discord.Message(
-
-        )
     ]
