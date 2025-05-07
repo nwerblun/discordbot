@@ -3,7 +3,7 @@ from discord.ext import tasks
 import datetime
 import os
 from pickledb import AsyncPickleDB
-from reaction_map import ReactionMap
+from responses import Responses
 
 class GoonClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -69,7 +69,7 @@ class GoonClient(discord.Client):
         gm_role = await self._fetch_role("said gm")
         if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
-            await msg.reply("gm gaymer")
+            await msg.reply(Responses.random_gm_response())
             await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["homiekiss"]))
             await self._reply_with_gm_response_or_clear(msg)
             if self.verbosity > 0:
@@ -94,7 +94,7 @@ class GoonClient(discord.Client):
         resps = main_dict[key]
 
         if not (await self._user_has_role(msg.author, "said gm")):
-            resp = await msg.reply("Bruh, go say good morning right now")
+            resp = await msg.reply(Responses.random_gm_warning())
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
