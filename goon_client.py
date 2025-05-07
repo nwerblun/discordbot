@@ -44,7 +44,7 @@ class GoonClient(discord.Client):
             print("Removed gm roles")
 
     async def _letsgo(self, msg: discord.Message):
-        await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["letsgo"]))
+        await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
 
     async def _fetch_role(self, role_name: str):
         roles = await self.gd.fetch_roles()

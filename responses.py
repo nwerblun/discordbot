@@ -15,8 +15,8 @@ class Responses:
         "gm gaymer",
         "gm",
         "Good Morning",
-        "Have a lovely morning, beautiful :homiekissh:",
-        "Sup bby get out there and have a good day *towel whips your booty* :angelman:",
+        "Have a lovely morning, beautiful <:homiekissh:1367947655875137547>",
+        "Sup bby get out there and have a good day *towel whips your booty* <:angelman:1367947736535793695>",
         "Good morning, don't let me catch you down in the dumps king",
         "Good morning to everyone except people who don't say good morning",
         "Luv u bby <3"
@@ -24,10 +24,10 @@ class Responses:
 
     good_morning_warnings = [
         "Bruh, go say good morning right now",
-        "Ain't no way you out here typing without saying good morning :ShrekStare:",
+        "Ain't no way you out here typing without saying good morning <:ShrekStare:1368622841112821821>",
         "Dude, how can you just come out here and start your day without a good morning?",
         "Bots have feelings too, go say good morning right now",
-        "What, you homophobic or something? Go say gm right now and get your kiss :homiekissh:"
+        "What, you homophobic or something? Go say gm right now and get your kiss <:homiekissh:1367947655875137547>"
     ]
 
     emojis = {
