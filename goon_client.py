@@ -44,7 +44,7 @@ class GoonClient(discord.Client):
             print("Removed gm roles")
 
     async def _letsgo(self, msg: discord.Message):
-        await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
+        await msg.add_reaction(await msg.guild.fetch_emoji(Responses.random_hype_reaction()))
 
     async def _fetch_role(self, role_name: str):
         roles = await self.gd.fetch_roles()
@@ -70,7 +70,7 @@ class GoonClient(discord.Client):
         if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
             await msg.reply(Responses.random_gm_response())
-            await msg.add_reaction(await msg.guild.fetch_emoji(ReactionMap.emojis["homiekiss"]))
+            await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
             await self._reply_with_gm_response_or_clear(msg)
             if self.verbosity > 0:
                 print("added gm role to " + msg.author.name)
