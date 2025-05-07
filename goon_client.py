@@ -91,6 +91,8 @@ class GoonClient(discord.Client):
         count_key = str(msg.author.id) + "_gm_warn_count"
         if main_dict is None:
             main_dict = {}
+        if main_warn_dict is None:
+            main_warn_dict = {}
         if not (key in main_dict.keys()):
             main_dict[key] = []
         if not (count_key in main_warn_dict.keys()):
@@ -99,7 +101,7 @@ class GoonClient(discord.Client):
         warn_count = int(main_warn_dict[count_key])
 
         if not (await self._user_has_role(msg.author, "said gm")):
-            if warn_count >= os.getenv("GM_WARN_MAX"):
+            if warn_count >= int(os.getenv("GM_WARN_MAX")):
                 resp = await msg.reply(Responses.random_gm_post_max())
                 await msg.delete()
             else:
