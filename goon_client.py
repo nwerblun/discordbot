@@ -86,26 +86,28 @@ class GoonClient(discord.Client):
             return
 
         main_dict = await self.db.aget("gm_resps")
+        main_warn_dict = await self.db.aget("gm_warn_counts")
         key = str(msg.author.id) + "_gm_responses"
-        count_key = str(msg.author.id) + "gm_warn_count"
+        count_key = str(msg.author.id) + "_gm_warn_count"
         if main_dict is None:
             main_dict = {}
         if not (key in main_dict.keys()):
             main_dict[key] = []
+        if not (count_key in main_warn_dict.keys()):
+            main_warn_dict[count_key] = 0
         resps = main_dict[key]
+        warn_count = int(main_warn_dict[count_key])
 
         if not (await self._user_has_role(msg.author, "said gm")):
-            warn_count = int(await self.db.aget(count_key))
             if warn_count >= os.getenv("GM_WARN_MAX"):
                 resp = await msg.reply(Responses.random_gm_post_max())
                 await msg.delete()
             else:
                 resp = await msg.reply(Responses.random_gm_warning())
-                warn_count += 1
+                main_warn_dict[count_key] += 1
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
-            self.db.aset(count_key, 0)
             if not len(resps):
                 return  # nothing to delete
             if self.verbosity > 1:
@@ -123,7 +125,9 @@ class GoonClient(discord.Client):
                             print("Deleting msg ", msg_to_del)
                         await msg_to_del.delete()
                 main_dict.pop(key, None)
+                main_warn_dict.pop(count_key, None)
         await self.db.aset("gm_resps", main_dict)
+        await self.db.aset("gm_warn_counts", main_warn_dict)
         if not await self.db.asave():
             print("WARNING: Failed to save db")
 
@@ -177,7 +181,7 @@ class GoonClient(discord.Client):
                 r = await self._fetch_role("said gm")
                 async for mem in self.gd.fetch_members():
                     await mem.remove_roles(r)
-                    self.db.aset(str(mem.id) + "gm_warn_count", 0)
+                    self.db.aset(str(mem.id) + "_gm_warn_count", 0)
                 if self.verbosity > 0:
                     print("Removed gm roles")
                 succeeded = await self.db.asave()
