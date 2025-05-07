@@ -87,6 +87,7 @@ class GoonClient(discord.Client):
 
         main_dict = await self.db.aget("gm_resps")
         key = str(msg.author.id) + "_gm_responses"
+        count_key = str(msg.author.id) + "gm_warn_count"
         if main_dict is None:
             main_dict = {}
         if not (key in main_dict.keys()):
@@ -94,10 +95,17 @@ class GoonClient(discord.Client):
         resps = main_dict[key]
 
         if not (await self._user_has_role(msg.author, "said gm")):
-            resp = await msg.reply(Responses.random_gm_warning())
+            warn_count = int(await self.db.aget(count_key))
+            if warn_count >= os.getenv("GM_WARN_MAX"):
+                resp = await msg.reply(Responses.random_gm_post_max())
+                await msg.delete()
+            else:
+                resp = await msg.reply(Responses.random_gm_warning())
+                warn_count += 1
             resps += [(resp.channel.id, resp.id)]
             main_dict[key] = resps
         elif (await self._user_has_role(msg.author, "said gm")):
+            self.db.aset(count_key, 0)
             if not len(resps):
                 return  # nothing to delete
             if self.verbosity > 1:
@@ -169,6 +177,11 @@ class GoonClient(discord.Client):
                 r = await self._fetch_role("said gm")
                 async for mem in self.gd.fetch_members():
                     await mem.remove_roles(r)
+                    self.db.aset(str(mem.id) + "gm_warn_count", 0)
                 if self.verbosity > 0:
                     print("Removed gm roles")
-                await interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
+                succeeded = await self.db.asave()
+                if succeeded:
+                    await interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
+                else:
+                    print("FAILED TO WRITE TO DB")

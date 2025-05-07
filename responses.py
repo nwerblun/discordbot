@@ -8,6 +8,9 @@ class Responses:
     def random_gm_warning():
         return random.choice(Responses.good_morning_warnings)
 
+    def random_gm_post_max():
+        return random.choice(Responses.good_morning_post_max_responses)
+
     def random_hype_reaction():
         return random.choice(Responses.emojis["hype"])
 
@@ -30,11 +33,22 @@ class Responses:
         "What, you homophobic or something? Go say gm right now and get your kiss <:homiekissh:1367947655875137547>"
     ]
 
+    good_morning_post_max_responses = [
+        "Dawg that's it, I ain't playing no more. Message deleted, go say good morning NOW <:low_tier_god:1369725986748235797>",
+        "Thine word be silenced til thee sow thine seed of pleasentry to the world",
+        "I'm just gonna keep deleting your messaged bro, go say good morning",
+        "You think this is a game? I can do this all day, go say good morning RIGHT NOW"
+
+    ]
+
     emojis = {
         "hype": {
-            "letsgo" : 1368313034883334236
+            "letsgo" : 1368313034883334236,
+            "nut" : 1369390342700404918
         },
         "misc" : {
-            "homiekiss" : 1367947655875137547
+            "homiekiss" : 1367947655875137547,
+            "ltg" : 1369725986748235797
+
         }
     }
