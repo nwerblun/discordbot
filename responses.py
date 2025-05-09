@@ -12,7 +12,7 @@ class Responses:
         return random.choice(Responses.good_morning_post_max_responses)
 
     def random_hype_reaction():
-        return random.choice(Responses.emojis["hype"])
+        return random.choice(Responses.emojis["hype"].values())
 
     good_morning_responses = [
         "gm gaymer",
