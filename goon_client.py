@@ -84,7 +84,8 @@ class GoonClient(discord.Client):
             if self.verbosity > 0:
                 print("user", msg.author, " is exempted. Skipping")
             return
-        if (await self._user_has_role(msg.author, "Runewatch Watchlist"):
+        user_role_is_exempt = await self._user_has_role(msg.author, "Runewatch Watchlist")
+        if user_role_is_exempt:
             print("user", msg.author, "is exempted")
             return
 
