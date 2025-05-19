@@ -4,6 +4,7 @@ import datetime
 import os
 from pickledb import AsyncPickleDB
 from responses import Responses
+import random
 
 class GoonClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -69,8 +70,13 @@ class GoonClient(discord.Client):
         gm_role = await self._fetch_role("said gm")
         if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
-            await msg.reply(Responses.random_gm_response())
-            await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
+            if random.randint(1,1000) == 69:
+                await msg.reply("Nah man, bad morning.")
+                await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["ltg"]))
+                await msg.author.timeout(datetime.timedelta(minutes=1))
+            else:
+                await msg.reply(Responses.random_gm_response())
+                await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
             await self._reply_with_gm_response_or_clear(msg)
             if self.verbosity > 0:
                 print("added gm role to " + msg.author.name)
