@@ -70,10 +70,13 @@ class GoonClient(discord.Client):
         gm_role = await self._fetch_role("said gm")
         if not (await self._user_has_role(msg.author, "said gm")):
             await msg.author.add_roles(gm_role)
-            if random.randint(1,1000) == 69:
+            if random.randint(1, 1000) == 69:
                 await msg.reply("Nah man, bad morning.")
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["ltg"]))
                 await msg.author.timeout(datetime.timedelta(minutes=1))
+            elif random.randint(1, 50) == 45:
+                await msg.reply(Responses.random_rare_gm_response())
+                await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["lipbite"]))
             else:
                 await msg.reply(Responses.random_gm_response())
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))

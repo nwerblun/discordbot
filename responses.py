@@ -3,10 +3,10 @@ import random
 
 class Responses:
     def random_gm_response():
-        if random.randint(1, 50) == 25:
-            return random.choise(Responses.rare_good_morning_responses)
-        else:
-            return random.choice(Responses.good_morning_responses)
+        return random.choice(Responses.good_morning_responses)
+
+    def random_rare_gm_response():
+        return random.choice(Responses.rare_good_morning_responses)
 
     def random_gm_warning():
         return random.choice(Responses.good_morning_warnings)
@@ -15,7 +15,7 @@ class Responses:
         return random.choice(Responses.good_morning_post_max_responses)
 
     def random_hype_reaction():
-        key = random.choice(Responses.emojis["hype"].keys())
+        key = random.choice(list(Responses.emojis["hype"].keys()))
         return Responses.emojis["hype"][key]
 
     good_morning_responses = [
@@ -64,10 +64,12 @@ class Responses:
     emojis = {
         "hype": {
             "letsgo" : 1368313034883334236,
-            "nut" : 1369390342700404918
+            "nut" : 1369390342700404918,
+            "ez" : 1367946807837200516
         },
         "misc" : {
             "homiekiss" : 1367947655875137547,
-            "ltg" : 1369725986748235797
+            "ltg" : 1369725986748235797,
+            "lipbite" : 1367947440812195862
         }
     }
