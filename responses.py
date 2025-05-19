@@ -15,7 +15,8 @@ class Responses:
         return random.choice(Responses.good_morning_post_max_responses)
 
     def random_hype_reaction():
-        return random.choice(Responses.emojis["hype"])
+        key = random.choice(Responses.emojis["hype"].keys())
+        return Responses.emojis["hype"][key]
 
     good_morning_responses = [
         "gm gaymer",
@@ -61,13 +62,12 @@ class Responses:
     ]
 
     emojis = {
-        "hype": [
+        "hype": {
             "letsgo" : 1368313034883334236,
             "nut" : 1369390342700404918
-        ],
-        "misc" : [
+        },
+        "misc" : {
             "homiekiss" : 1367947655875137547,
             "ltg" : 1369725986748235797
-
-        ]
+        }
     }
