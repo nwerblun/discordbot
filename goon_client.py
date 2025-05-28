@@ -37,7 +37,7 @@ class GoonClient(discord.Client):
             if (await self._user_has_role(msg.author, "sussy")):
                 await msg.add_reaction("🥀")
             if (await self._user_has_role(msg.author, "baka")):
-                await msg.reply(discord.Message(file=os.getenv("DATA_ROOT_DIR")+"soypoint.png"))
+                await msg.reply(file=discord.File(os.getenv("DATA_ROOT_DIR")+"soypoint.png"))
 
     @tasks.loop(time=datetime.time(hour=7, tzinfo=datetime.timezone.utc))
     async def revoke_gm_roles(self):
