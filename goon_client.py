@@ -67,7 +67,7 @@ class GoonClient(discord.Client):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
         self.tree.copy_global_to(guild=gd)
         await self.tree.sync()
-        revoke_gm_roles.start()
+        self.revoke_gm_roles.start()
 
     async def _assign_gm_role(self, msg):
         gm_role = await self._fetch_role("said gm")
