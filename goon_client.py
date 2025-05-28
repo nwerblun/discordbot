@@ -36,6 +36,8 @@ class GoonClient(discord.Client):
                 await self._letsgo(msg)
             if (await self._user_has_role(msg.author, "sussy")):
                 await msg.add_reaction("🥀")
+            if (await self._user_has_role(msg.author, "baka")):
+                await msg.reply(discord.Message(file=os.getenv("DATA_ROOT_DIR")+"soypoint.png"))
 
     @tasks.loop(time=datetime.time(hour=7, tzinfo=datetime.timezone.utc))
     async def revoke_gm_roles(self):
@@ -77,7 +79,7 @@ class GoonClient(discord.Client):
                 await msg.reply("Nah man, bad morning.")
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["ltg"]))
                 await msg.author.timeout(datetime.timedelta(minutes=1))
-            elif random.randint(1, 1000) < 250:
+            elif random.randint(1, 1000) < 100:
                 await msg.reply(Responses.random_rare_gm_response())
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["lipbite"]))
             else:

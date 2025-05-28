@@ -6,6 +6,6 @@ import os
 
 
 load_dotenv()
-db = "/media/pi-nas/discordbot_data/discord.db"
+db = os.getenv("DATA_ROOT_DIR") + "discord.db"
 client = goon_client.GoonClient(intents=discord.Intents.all(), db=db)
 client.run(os.getenv("DISCORD_TOKEN"))
