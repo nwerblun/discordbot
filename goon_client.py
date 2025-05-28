@@ -213,7 +213,7 @@ class GoonClient(discord.Client):
                 r = await self._fetch_role("said gm")
                 async for mem in self.gd.fetch_members():
                     await mem.remove_roles(r)
-                    self.db.aset(str(mem.id) + "_gm_warn_count", 0)
+                    await self.db.aset(str(mem.id) + "_gm_warn_count", 0)
                 if self.verbosity > 0:
                     print("Removed gm roles")
                 succeeded = await self.db.asave()
