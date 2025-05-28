@@ -193,6 +193,7 @@ class GoonClient(discord.Client):
         @self.tree.command(description="Exempt a user from gm")
         async def exempt_from_gm(interaction: discord.Interaction, mem: discord.Member):
             if interaction.permissions.administrator:
+                await interaction.response.defer()
                 if await self.db.aget("gm_exepmts") is None:
                     await self.db.aset("gm_exempts", [str(mem.id)])
                 else:
@@ -200,13 +201,15 @@ class GoonClient(discord.Client):
                                        await self.db.aget("gm_exempts") + [str(mem.id)])
                 succeeded = await self.db.asave()
                 if succeeded:
-                    await interaction.response.send_message("User @" + mem.name + " exempted from gm rules")
+                    await interaction.followup.send("User @" + mem.name + " exempted from gm rules")
                 else:
                     print("FAILED TO WRITE TO DB")
 
         @self.tree.command(description="Clear all user's gm status")
         async def wipe_gm_roles(interaction: discord.Interaction):
             if interaction.permissions.administrator:
+                # Needed if action will take > about 3s
+                await interaction.response.defer()
                 r = await self._fetch_role("said gm")
                 async for mem in self.gd.fetch_members():
                     await mem.remove_roles(r)
@@ -215,6 +218,6 @@ class GoonClient(discord.Client):
                     print("Removed gm roles")
                 succeeded = await self.db.asave()
                 if succeeded:
-                    await interaction.response.send_message("best get into that gm channel my guy, I'll be watching.")
+                    await interaction.followup.send("best get into that gm channel my guy, I'll be watching.")
                 else:
                     print("FAILED TO WRITE TO DB")
