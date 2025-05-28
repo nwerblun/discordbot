@@ -34,10 +34,12 @@ class GoonClient(discord.Client):
                 await self._reply_with_gm_response_or_clear(msg)
             if msg.channel.name == "are-we-up":
                 await self._letsgo(msg)
+            if (await self._user_has_role(msg.author, "sussy")):
+                await msg.add_reaction("🥀")
 
-
-    @tasks.loop(time=datetime.time(hour=0))
+    @tasks.loop(time=datetime.time(hour=7, tzinfo=datetime.timezone.utc))
     async def revoke_gm_roles(self):
+        print("Looping task starting")
         gm_role = await self._fetch_role("said gm")
         async for mem in gd.fetch_members():
             await mem.remove_roles(r)
@@ -65,6 +67,7 @@ class GoonClient(discord.Client):
         gd = await self.fetch_guild(int(os.getenv("GUILD_ID")))
         self.tree.copy_global_to(guild=gd)
         await self.tree.sync()
+        revoke_gm_roles.start()
 
     async def _assign_gm_role(self, msg):
         gm_role = await self._fetch_role("said gm")
@@ -74,7 +77,7 @@ class GoonClient(discord.Client):
                 await msg.reply("Nah man, bad morning.")
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["ltg"]))
                 await msg.author.timeout(datetime.timedelta(minutes=1))
-            elif random.randint(1, 50) == 45:
+            elif random.randint(1, 1000) < 250:
                 await msg.reply(Responses.random_rare_gm_response())
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["lipbite"]))
             else:
