@@ -52,7 +52,7 @@ class GoonClient(discord.Client):
     async def revoke_gm_roles(self):
         print("Looping task starting")
         gm_role = await self._fetch_role("said gm")
-        async for mem in gd.fetch_members():
+        async for mem in self.gd.fetch_members():
             await mem.remove_roles(r)
         if self.verbosity > 0:
             print("Removed gm roles")
