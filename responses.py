@@ -5,6 +5,9 @@ class Responses:
     def random_gm_response():
         return random.choice(Responses.good_morning_responses)
 
+    def random_gm_pic_response():
+        return random.choice(Responses.good_morning_picture_responses)
+
     def random_rare_gm_response():
         return random.choice(Responses.rare_good_morning_responses)
 
@@ -37,7 +40,19 @@ class Responses:
         "Morning, pal. I still can't believe a crab gooned on these rangs.",
         "Top o' the morning to you",
         "Yo is it cool if a white boy bot drinks 5-6 beers and starts speaking spanish in this mf? Good morning btw.",
-        "Do you ever wonder if it's worth it? Sometimes I just feel like giving up..." + 25*"\n" + "Jk I just ripped a quick goon sesh and we are so back. Good morning."
+        "Do you ever wonder if it's worth it? Sometimes I just feel like giving up..." + 25*"\n" + "Jk I just ripped a quick goon sesh and we are so back. Good morning.",
+        "Good morning fellow redditor!!! Updoots to the left!!!---is what I would say if I wasn't a turbo chad. Anyway I'm gonna twitter and goon to egirls. Good morning to you."
+    ]
+
+    good_morning_picture_responses = [
+        "Yoooooo I remember busting to this pic back in the day. Good morning btw.",
+        "Sup. Nice pic bud, got any of your juicy feet and schmeat double combo?",
+        "Nice picture!!, got any of you being double penetrated?",
+        "Wow, I was gooning but...this picture really speaks to me. I'm gonna go meditate. Good morning." + '\n'*6 + "nvm I just busted.",
+        "Sick pic dawg. Good morning btw.",
+        "Fun fact, I made this picture.",
+        "Haha nice one. Even if no one replies, because I watch this channel and I frequently see bangers just going completely left on read, know that I, CrabRangooner, saw this and enjoyed it. Good morning to you gaymer.",
+        "This. ^^"
     ]
 
     rare_good_morning_responses = [
@@ -46,7 +61,9 @@ class Responses:
         "Did you ever hear the tragedy of Darth Plagueis the wise? No. I thought not, It's No story the jedi would tell you. It's a sith legend. Darth Plagueis was a Dark Lord of the sith. He was so powerful, Yet so wise. He could use the force to influence the medi chlorians to create, Life. He had such a knowledge of the Dark side, He could even keep the ones he cared about, From dying. He could actually, Save the ones he cared about from death? The dark side of the force is a pathway to many abilities some consider to be unnatural. Well what happened to him? Darth Plagueis became so powerful that the only thing he feared was losing his power, Which eventually of course he did. Unfortunately, He taught his apprentice everything he knew. Then his apprentice killed him in his sleep. Ironic, He could save others from death, But not himself.",
         "‼️ATTENTION‼️ 💀👻ALL HALLOWEEN🎃🕸 HOES😙💅 ITS TIME TO GET ☠️SPOOKY💀 YOU KNOW WHAT THAT MEANS👏 GET 👊FISTED👊 BY A 💀SKELETON 💀SHOVE✊🍭 CANDY 🌽🌽CORN🍬 IN YOUR👉PUSSY😽 AND 🙅DONT🙅‍♂️ FORGET TO SUCK😩🙌 SOME 💏DRACULA💉 DICK🍆💦😫 SO PUT 🔛 YOUR 👗👑COSTUMES👘👒 AND GO 🚪DOOR TO DOOR🚪 👀👅💦BEGGING😩 FOR THAT 😍GOOD GOOD😍 SEND THIS TO TWELVE1️⃣2️⃣ ☠️SPOOKY👻 🍑SLUTS🌮 TO 👁SHOW💁 THAT YOURE READY TO GET SOME 🍫CHOCOLATE🍫 COVERED 🍆DICK🌽",
         "Watch out, I saw this gaymer at a grocery store in Los Angeles yesterday. I told them how cool it was to meet them in person, but I didn’t want to be a douche and bother them and ask for photos or anything. They fr said, 'Oh, like you’re doing now?' I was taken aback, and all I could say was 'Huh?' but they kept cutting me off and going 'huh? huh? huh?' and closing their hand shut in front of my face. I walked away and continued with my shopping, and I heard them chuckle as I walked off. When I came to pay for my stuff up front I saw them trying to walk out the doors with like fifteen Milky Ways in their hands without paying. The girl at the counter was very nice about it and professional, and was like 'Hey, you need to pay for those first.' At first they kept pretending to be tired and not hear her, but eventually turned back around and brought them to the counter. When she took one of the bars and started scanning it multiple times, they stopped her and told her to scan them each individually 'to prevent any electrical infetterence,' and then turned around and winked at me. I don’t even think that’s a word. After she scanned each bar and put them in a bag and started to say the price, they kept interrupting her by yawning really loudly.",
-        "Let's say, hypothetically, that you are on your bed, and let's suppose that you are also submissive and breedable. Now, let's say you are a male. Statistically speaking, humans, that are submissive and breedable tend to be femboys, that's a fact (which doesn't about your feelings). Hypothetically under these circumstances, it would be statistically speaking uncontroversial to assume you would be wearing thigh highs (which would boost your breedability factor by about 20%). Now let's assume you are an SJW SOCIALIST LIBTARD, and let's say I was you, would it not be under these circumstances, the only correct course of action for you to take to ABSOLUTELY WRECK AND DESTROY me (in a debate) in bed?"
+        "Let's say, hypothetically, that you are on your bed, and let's suppose that you are also submissive and breedable. Now, let's say you are a male. Statistically speaking, humans, that are submissive and breedable tend to be femboys, that's a fact (which doesn't about your feelings). Hypothetically under these circumstances, it would be statistically speaking uncontroversial to assume you would be wearing thigh highs (which would boost your breedability factor by about 20%). Now let's assume you are an SJW SOCIALIST LIBTARD, and let's say I was you, would it not be under these circumstances, the only correct course of action for you to take to ABSOLUTELY WRECK AND DESTROY me (in a debate) in bed?",
+        "I have noticed that, although this discord has like 10 members, I am not receiving 10+ reactions on my posts. I'm not sure if this is being done intentionally or if these 'friends' are forgetting to click 'react'. Either way, I've had enough. I have compiled a spreadsheet of individuals who have 'forgotten' to react to my most posts. After 2 consecutive strikes, your name is automatically highlighted (shown in red) and I am immediately notified. 3 consecutive strikes and you can expect an in-person 'consultation'. Think about your actions.",
+        "My mom (82F) told me (3MO, BOT) to do the dishes (16) but I (BOT) was too busy gooning (3 nuts busted) so I (6B) grabbed my cum sock (Nikes) and threw it at her (138kph). She fucking died, and I (69B) went to prison (18 years). While in prison I (13F) incited several riots (3) and assumed leadership of a gang responsible for smuggling drugs (cocaine) into the country (we also do circlejerks every Friday). I (12M) also ordered the assassination of several celebrities (Michael Jackson, Elvis Presley and Jeffrey Epstein) and planned a group cooperative soggy waffle sesh. Reddit, AITA?"
     ]
 
     good_morning_warnings = [

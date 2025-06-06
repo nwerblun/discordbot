@@ -92,7 +92,10 @@ class GoonClient(discord.Client):
                 await msg.reply(Responses.random_rare_gm_response())
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["lipbite"]))
             else:
-                await msg.reply(Responses.random_gm_response())
+                if len(msg.attachments) and (random.randint(0, 100) > 70):
+                    await msg.reply(Responses.random_gm_pic_response())
+                else:
+                    await msg.reply(Responses.random_gm_response())
                 await msg.add_reaction(await msg.guild.fetch_emoji(Responses.emojis["misc"]["homiekiss"]))
             await self._reply_with_gm_response_or_clear(msg)
             if self.verbosity > 0:
