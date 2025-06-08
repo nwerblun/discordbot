@@ -42,7 +42,7 @@ class GoonClient(discord.Client):
 
     async def _soyresponse(msg):
         fname = Responses.soyify_text(msg.content)
-        await msg.reply(file=discord.File(fname)
+        await msg.reply(file=discord.File(fname))
         try:
             os.remove(fname)
         except Exception as e:
