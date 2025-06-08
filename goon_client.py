@@ -38,15 +38,15 @@ class GoonClient(discord.Client):
             if (await self._user_has_role(msg.author, "sussy")):
                 await msg.add_reaction("🥀")
             if (await self._user_has_role(msg.author, "baka")):
-                img = Image.open(os.getenv("DATA_ROOT_DIR")+"soypoint.png")
-                imgdraw = ImageDraw.Draw(img)
-                imgdraw.text((25, 25), "\"" + msg.content + "\"", fill=(0,0,0), font_size=24)
-                img.save(os.getenv("DATA_ROOT_DIR")+"temp_sp.png")
-                await msg.reply(file=discord.File(os.getenv("DATA_ROOT_DIR")+"temp_sp.png"))
-                try:
-                    os.remove(os.getenv("DATA_ROOT_DIR")+"temp_sp.png")
-                except Exception as e:
-                    print(e)
+                await self._soyresponse(msg)
+
+    async def _soyresponse(msg):
+        fname = Responses.soyify_text(msg.content)
+        await msg.reply(file=discord.File(fname)
+        try:
+            os.remove(fname)
+        except Exception as e:
+            print(e)
 
     @tasks.loop(time=datetime.time(hour=7, tzinfo=datetime.timezone.utc))
     async def revoke_gm_roles(self):

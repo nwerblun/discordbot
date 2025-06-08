@@ -1,5 +1,8 @@
 import discord
 import random
+from PIL import Image, ImageDraw
+import textwrap
+import os
 
 class Responses:
     def random_gm_response():
@@ -20,6 +23,26 @@ class Responses:
     def random_hype_reaction():
         key = random.choice(list(Responses.emojis["hype"].keys()))
         return Responses.emojis["hype"][key]
+
+    def soyify_text(text):
+        filename, bbox, fontsize, max_width = random.choice(Responses._soy_pictures)
+        img = Image.open(os.getenv("DATA_ROOT_DIR")+filename)
+        imgdraw = ImageDraw.Draw(img)
+        new_text = textwrap.wrap(text, max_width)
+        new_text = "\n".join(new_text)
+        imgdraw.text(bbox, "\"" + new_text + "\"", fill=(0,0,0), font_size=fontsize)
+        fname = os.getenv("DATA_ROOT_DIR")+"temp.png"
+        img.save(fname)
+        return fname
+
+
+    _soy_pictures = [
+        ("soypoint.png", (25, 25), 18, 28),
+        ("soynote.png", (113, 310), 20, 10),
+        ("soyphone.png", (115, 80), 18, 13),
+        ("soychoir.png", (40, 50), 24, 60),
+        ("soysmug.png", (17, 20), 18, 30)
+    ]
 
     good_morning_responses = [
         "gm gaymer",
