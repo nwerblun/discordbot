@@ -226,7 +226,7 @@ class GoonClient(discord.Client):
                     print("FAILED TO WRITE TO DB")
 
         @self.tree.command(
-            name="Crab Rangooner's 8 Magic Balls",
+            name="magic_eight_balls",
             description="Ask the goon master himself for some advice. He is currently experiencing post nut clarity and will surely provide exceptional assistance."
         )
         @discord.app_commands.describe(
