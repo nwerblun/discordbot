@@ -234,4 +234,5 @@ class GoonClient(discord.Client):
         )
         async def eight_ball(interaction: discord.Interaction, question: str):
             response = Responses.eight_ball_response()
-            await interaction.response.send_message("<:thonk:1367947311627374592>" + response + "<:thonk:1367947311627374592>")
+            await interaction.response.send_message("\"" + question + "\"\n" +
+                                                    "<:thonk:1367947311627374592> " + response + " <:thonk:1367947311627374592>")
