@@ -40,7 +40,7 @@ class GoonClient(discord.Client):
             if (await self._user_has_role(msg.author, "baka")):
                 await self._soyresponse(msg)
 
-    async def _soyresponse(msg):
+    async def _soyresponse(self, msg):
         fname = Responses.soyify_text(msg.content)
         await msg.reply(file=discord.File(fname))
         try:
