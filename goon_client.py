@@ -227,7 +227,7 @@ class GoonClient(discord.Client):
 
         @self.tree.command(
             name="magic_eight_balls",
-            description="Ask the goon master himself for some advice. He is currently experiencing post nut clarity and will surely provide exceptional assistance."
+            description="CrabRangooner is currently experiencing post nut clarity and will surely provide exceptional assistance"
         )
         @discord.app_commands.describe(
             question="What would you like to ask?"
