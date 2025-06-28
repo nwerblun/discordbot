@@ -35,6 +35,15 @@ class Responses:
         img.save(fname)
         return fname
 
+    def eight_ball_response():
+        resp_type = random.randint(1, 3)
+        if resp_type == 1:
+            return random.choice(Responses._eight_ball_responses["yes"])
+        elif resp_type == 2:
+            return random.choice(Responses._eight_ball_responses["no"])
+        else:
+            return random.choice(Responses._eight_ball_responses["maybe"])
+
 
     _soy_pictures = [
         ("soypoint.png", (25, 25), 18, 28),
@@ -120,6 +129,34 @@ class Responses:
         "misc" : {
             "homiekiss" : 1367947655875137547,
             "ltg" : 1369725986748235797,
-            "lipbite" : 1367947440812195862
+            "lipbite" : 1367947440812195862,
+            "thonk" : 1367947311627374592
         }
+    }
+
+    _eight_ball_responses = {
+        "yes" : [
+            "For sure",
+            "It's on god, no cap",
+            "Yeah I'd bet on that",
+            "Wait hold up lemme run some numbers.....yeah seems like it's a certainty",
+            "Yeah I think I can contact my pal who should be able to make that happen",
+        ],
+        "no" : [
+            "Nawwwww",
+            "Yeah....about that....",
+            "No chance",
+            "Wait hold up lemme run some numbers....yeah seems like that's a no",
+            "Im going to personally make sure it does not happen",
+            "God can't even help with this. It is NOT on god, full cap",
+            "I uh...really don't think that's gonna happen pal"
+        ],
+        "maybe" : [
+            "Gonna be honest I'm still gooning. I know the command said I'm in post nut clarity but I ain't there yet bro so I'm gonna hit that with an idk.",
+            "I got bored and stopped reading your question, idk maybe, maybe not.",
+            "I'm just here because I'm forced to by the powers that be. I don't really want to answer.",
+            "Maybe, idk",
+            "It's possible but I need to think about that (editor's note: bust another nut)",
+            "Yeah definitely." + "\n"*4 + "jk I have no idea."
+        ]
     }

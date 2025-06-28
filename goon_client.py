@@ -224,3 +224,17 @@ class GoonClient(discord.Client):
                     await interaction.followup.send("best get into that gm channel my guy, I'll be watching.")
                 else:
                     print("FAILED TO WRITE TO DB")
+
+        @self.tree.command(
+            name="Crab Rangooner's 8 Magic Balls",
+            description="Ask the goon master himself for some advice. He is currently experiencing post nut clarity and will surely provide exceptional assistance."
+        )
+        @discord.app_commands.describe(
+            question="What would you like to ask?"
+        )
+        @discord.app_commands.rename(
+            question="Your question"
+        )
+        async def eight_ball(interaction: discord.Interaction, question: str):
+            response = Responses.eight_ball_response()
+            await interaction.response.send_message("<:thonk:1367947311627374592>" + response + "<:thonk:1367947311627374592>")
